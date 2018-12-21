@@ -12,8 +12,9 @@ namespace App\DTO;
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotSupportedException;
-use App\DTO\External\First;
-use App\DTO\Internal\Second;
+use App\DTO\External\External;
+use App\DTO\Internal\Internal;
+use Er1z\FakeMock\FakeMock;
 
 class DataProvider implements RestrictedDataProviderInterface, CollectionDataProviderInterface
 {
@@ -27,13 +28,14 @@ class DataProvider implements RestrictedDataProviderInterface, CollectionDataPro
      */
     public function getCollection(string $resourceClass, string $operationName = null)
     {
+        $fakemock = new FakeMock();
         for($a=0;$a<3;$a++){
-
+            yield $fakemock->fill($resourceClass);
         }
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return $resourceClass==First::class || $resourceClass==Second::class;
+        return $resourceClass==External::class || $resourceClass==Internal::class;
     }
 }

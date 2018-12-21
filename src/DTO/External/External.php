@@ -20,7 +20,7 @@ use Er1z\FakeMock\Annotations\FakeMockField;
  * @ApiResource()
  * @FakeMock()
  */
-class First
+class External
 {
 
     /**
@@ -32,8 +32,8 @@ class First
 
     /**
      * @var string
-     * @FakeMockField(faker="")
+     * @FakeMockField()
      */
-    public $secondString;
+    public $externalString;
 
 }

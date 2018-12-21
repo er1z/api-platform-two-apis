@@ -10,24 +10,29 @@ namespace App\DTO\Internal;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Er1z\FakeMock\Annotations\FakeMock;
+use Er1z\FakeMock\Annotations\FakeMockField;
 
 /**
  * Class First
  * @package App\DTO\Internal
  * @ApiResource()
+ * @FakeMock()
  */
-class Second
+class Internal
 {
 
     /**
      * @var int
      * @ApiProperty(identifier=true)
+     * @FakeMockField()
      */
     public $id;
 
     /**
      * @var string
+     * @FakeMockField()
      */
-    public $firstString;
+    public $internalString;
 
 }
