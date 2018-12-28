@@ -24,7 +24,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Er1z\\MultiApiPlatform": "bundle/"
         }
     },
     "autoload-dev": {

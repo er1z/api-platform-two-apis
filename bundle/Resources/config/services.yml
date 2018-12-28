@@ -1,0 +1,6 @@
+services:
+#  Er1z\MultiApiPlatform\ResourceNameCollectionFactoryDecorator:
+#    decorates: api_platform.metadata.resource.name_collection_factory.cached
+#
+#  Er1z\MultiApiPlatform\RouteLoader:
+#    decorates: api_platform.route_loader
