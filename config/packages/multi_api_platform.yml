@@ -1,0 +1,12 @@
+multi_api_platform:
+  apis:
+    external:
+      namespace: App\DTO\External
+      implements: ~
+      conditions: ""
+      debug_conditions: ~
+    internal:
+      namespace: App\DTO\Internal
+      implements: ~
+      conditions: "request.query.has('is_internal')" # route condition
+      debug_conditions: ~

@@ -46,6 +46,7 @@ class RouteLoader implements \Symfony\Component\Config\Loader\LoaderInterface
             }
 
             if(strpos($class, 'App\DTO\Internal')===0){
+                // todo: event listener with writing isdebug to attributes or determine from context
                 $r->setCondition('request.attributes.get("is_internal") === true');
             }else if(strpos($class, 'App\DTO\External')===0){
                 $r->setCondition('request.attributes.get("is_internal") === false');

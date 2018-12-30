@@ -1,6 +1,33 @@
 services:
-#  Er1z\MultiApiPlatform\ResourceNameCollectionFactoryDecorator:
-#    decorates: api_platform.metadata.resource.name_collection_factory.cached
-#
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+  Er1z\MultiApiPlatform\:
+    resource: '../../*'
+    exclude: '../../{DependencyInjection,MultiApiPlatformBundle.php}'
+
+# TODO
 #  Er1z\MultiApiPlatform\RouteLoader:
 #    decorates: api_platform.route_loader
+
+  Er1z\MultiApiPlatform\Command\SwaggerCommand:
+    arguments:
+      - '@api_platform.swagger.command.swagger_command'
+    tags:
+      - 'console.command'
+
+  my_expression_language:
+    class: Symfony\Component\ExpressionLanguage\ExpressionLanguage
+
+  Er1z\MultiApiPlatform\ExecutionContext:
+    arguments:
+      - '%multi_api_platform.apis%'
+      - '@request_stack'
+      - '@my_expression_language'
+      - '%kernel.debug%'
+
+  # todo: probably it need to be privatized
+
+  Er1z\MultiApiPlatform\ApiPlatform\ResourceNameCollectionFactoryDecorator:
+    decorates: api_platform.metadata.resource.name_collection_factory.cached

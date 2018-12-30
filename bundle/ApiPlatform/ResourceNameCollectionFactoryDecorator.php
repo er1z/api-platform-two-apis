@@ -6,12 +6,12 @@
  * Time: 21:56
  */
 
-namespace App\ApiPlatform;
+namespace Er1z\MultiApiPlatform\ApiPlatform;
 
 
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceNameCollection;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Er1z\MultiApiPlatform\ExecutionContext;
 
 class ResourceNameCollectionFactoryDecorator implements ResourceNameCollectionFactoryInterface
 {
@@ -20,23 +20,17 @@ class ResourceNameCollectionFactoryDecorator implements ResourceNameCollectionFa
      */
     private $decorated;
     /**
-     * @var RequestStack
+     * @var ExecutionContext
      */
-    private $requestStack;
-    /**
-     * @var ContextDiscriminator
-     */
-    private $contextDiscriminator;
+    private $executionContext;
 
     public function __construct(
         ResourceNameCollectionFactoryInterface $decorated,
-        RequestStack $requestStack,
-        ContextDiscriminator $contextDiscriminator
+        ExecutionContext $executionContext
     )
     {
         $this->decorated = $decorated;
-        $this->requestStack = $requestStack;
-        $this->contextDiscriminator = $contextDiscriminator;
+        $this->executionContext = $executionContext;
     }
 
 
@@ -48,13 +42,7 @@ class ResourceNameCollectionFactoryDecorator implements ResourceNameCollectionFa
         $result = $this->decorated->create();
         $classes = iterator_to_array($result->getIterator());
 
-        $classes = array_filter($classes, function($arg){
-            return (
-                strpos($arg, 'App\DTO\External')===0 && !$this->contextDiscriminator->isInternal()
-            ) || (
-                strpos($arg, 'App\DTO\Internal')===0 && $this->contextDiscriminator->isInternal()
-            );
-        });
+        $classes = array_filter($classes, [$this->executionContext, 'isClassAvailable']);
 
         return new ResourceNameCollection($classes);
     }
