@@ -50,6 +50,11 @@ class ExecutionContext
     private function determineApiFromRequest(){
 
         $request = $this->requestStack->getMasterRequest();
+
+        if(!$request){
+            return null;
+        }
+
         $requestContext = new RequestContext();
         $requestContext->fromRequest($request);
 

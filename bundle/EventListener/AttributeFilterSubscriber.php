@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\ApiPlatform;
+namespace Er1z\MultiApiPlatform\EventListener;
 
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -10,15 +10,10 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 class AttributeFilterSubscriber implements EventSubscriberInterface
 {
 
-    /**
-     * @var ContextDiscriminator
-     */
-    private $contextDiscriminator;
-
-    public function __construct(ContextDiscriminator $contextDiscriminator)
+    public function __construct()
     {
 
-        $this->contextDiscriminator = $contextDiscriminator;
+        //$this->contextDiscriminator = $contextDiscriminator;
     }
 
     /**
@@ -48,8 +43,8 @@ class AttributeFilterSubscriber implements EventSubscriberInterface
 
     public function filterRequest(GetResponseEvent $event)
     {
-        $req = $event->getRequest();
+        /*$req = $event->getRequest();
         $isInternal = $this->contextDiscriminator->isInternal($req);
-        $req->attributes->set('is_internal', $isInternal);
+        $req->attributes->set('is_internal', $isInternal);*/
     }
 }

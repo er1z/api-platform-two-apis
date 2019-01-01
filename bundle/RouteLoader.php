@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\ApiPlatform;
+namespace Er1z\MultiApiPlatform;
 
 
 use ApiPlatform\Core\Bridge\Symfony\Routing\ApiLoader;
@@ -15,10 +15,24 @@ class RouteLoader implements \Symfony\Component\Config\Loader\LoaderInterface
      * @var ApiLoader
      */
     private $decorated;
+    /**
+     * @var array
+     */
+    private $apis;
+    /**
+     * @var bool
+     */
+    private $isDebug;
 
-    public function __construct(ApiLoader $decorated)
+    public function __construct(
+        ApiLoader $decorated,
+        array $apis,
+        bool $isDebug
+    )
     {
         $this->decorated = $decorated;
+        $this->apis = $apis;
+        $this->isDebug = $isDebug;
     }
 
     /**
@@ -45,6 +59,12 @@ class RouteLoader implements \Symfony\Component\Config\Loader\LoaderInterface
                 continue;
             }
 
+            $conditions = $this->getConditionsByClass($class);
+
+            if(!$conditions){
+                continue;
+            }
+
             if(strpos($class, 'App\DTO\Internal')===0){
                 // todo: event listener with writing isdebug to attributes or determine from context
                 $r->setCondition('request.attributes.get("is_internal") === true');
@@ -55,6 +75,12 @@ class RouteLoader implements \Symfony\Component\Config\Loader\LoaderInterface
         }
 
         return $result;
+    }
+
+    private function getConditionsByClass($class){
+
+
+        return null;
     }
 
     /**
