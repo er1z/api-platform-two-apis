@@ -83,7 +83,23 @@ class ExecutionContext
 
     }
 
-    public function isClassAvailable($class): bool
+    public function classBelongsTo(string $class, array $apiData){
+        if(!empty($apiData['namespace'])){
+            if(substr($class, 0, strlen($apiData['namespace'])) == $apiData['namespace']){
+                return true;
+            }
+        }
+
+        if(!empty($apiData['implements'])){
+            if(array_key_exists($apiData['implements'], class_implements($class))){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isClassAvailable(string $class): bool
     {
 
         if(is_object($class)){
@@ -98,19 +114,7 @@ class ExecutionContext
 
         $apiData = $this->apis[$api];
 
-        if(!empty($apiData['namespace'])){
-            if(substr($class, 0, strlen($apiData['namespace'])) == $apiData['namespace']){
-                return true;
-            }
-        }
-
-        if(!empty($apiData['implements'])){
-            if(array_key_exists($apiData['implements'], class_implements($class))){
-                return true;
-            }
-        }
-
-        return false;
+        return $this->classBelongsTo($class, $apiData);
     }
 
 }

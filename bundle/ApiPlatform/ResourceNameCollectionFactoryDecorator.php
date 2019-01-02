@@ -42,7 +42,7 @@ class ResourceNameCollectionFactoryDecorator implements ResourceNameCollectionFa
         $result = $this->decorated->create();
         $classes = iterator_to_array($result->getIterator());
 
-        $classes = array_filter($classes, [$this->executionContext, 'isClassAvailable']);
+        //$classes = array_filter($classes, [$this->executionContext, 'isClassAvailable']);
 
         return new ResourceNameCollection($classes);
     }

@@ -2,14 +2,17 @@ services:
   _defaults:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    bind:
+      $apis: '%multi_api_platform.apis%'
+      $isDebug: '%kernel.debug%'
 
   Er1z\MultiApiPlatform\:
     resource: '../../*'
     exclude: '../../{DependencyInjection,MultiApiPlatformBundle.php}'
 
 # TODO
-#  Er1z\MultiApiPlatform\RouteLoader:
-#    decorates: api_platform.route_loader
+  Er1z\MultiApiPlatform\RouteLoader:
+    decorates: api_platform.route_loader
 
   Er1z\MultiApiPlatform\Command\SwaggerCommand:
     arguments:

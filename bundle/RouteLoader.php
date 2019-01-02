@@ -23,9 +23,14 @@ class RouteLoader implements \Symfony\Component\Config\Loader\LoaderInterface
      * @var bool
      */
     private $isDebug;
+    /**
+     * @var ExecutionContext
+     */
+    private $executionContext;
 
     public function __construct(
         ApiLoader $decorated,
+        ExecutionContext $executionContext,
         array $apis,
         bool $isDebug
     )
@@ -33,6 +38,7 @@ class RouteLoader implements \Symfony\Component\Config\Loader\LoaderInterface
         $this->decorated = $decorated;
         $this->apis = $apis;
         $this->isDebug = $isDebug;
+        $this->executionContext = $executionContext;
     }
 
     /**
@@ -65,12 +71,7 @@ class RouteLoader implements \Symfony\Component\Config\Loader\LoaderInterface
                 continue;
             }
 
-            if(strpos($class, 'App\DTO\Internal')===0){
-                // todo: event listener with writing isdebug to attributes or determine from context
-                $r->setCondition('request.attributes.get("is_internal") === true');
-            }else if(strpos($class, 'App\DTO\External')===0){
-                $r->setCondition('request.attributes.get("is_internal") === false');
-            }
+            $r->setCondition($conditions);
 
         }
 
@@ -79,6 +80,11 @@ class RouteLoader implements \Symfony\Component\Config\Loader\LoaderInterface
 
     private function getConditionsByClass($class){
 
+        foreach($this->apis as $api){
+            if($this->executionContext->classBelongsTo($class, $api)){
+                return $api[$this->isDebug ? 'debug_conditions' : 'conditions'];
+            }
+        }
 
         return null;
     }
