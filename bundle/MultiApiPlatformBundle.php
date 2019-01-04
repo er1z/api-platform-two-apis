@@ -4,6 +4,7 @@
 namespace Er1z\MultiApiPlatform;
 
 
+use Er1z\MultiApiPlatform\DependencyInjection\CompilerPass\ApiLoaderArgumentAdjusterPass;
 use Er1z\MultiApiPlatform\DependencyInjection\CompilerPass\CoverStockSwaggerCommandPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -14,6 +15,7 @@ class MultiApiPlatformBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new CoverStockSwaggerCommandPass());
+        $container->addCompilerPass(new ApiLoaderArgumentAdjusterPass());
     }
 
 

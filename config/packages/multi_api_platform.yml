@@ -3,10 +3,10 @@ multi_api_platform:
     external:
       namespace: App\DTO\External
       implements: ~
-      conditions: ""
+      conditions: "true"
       debug_conditions: ~
     internal:
       namespace: App\DTO\Internal
       implements: ~
       conditions: "request.query.has('is_internal')" # route condition
-      debug_conditions: ~
+      debug_conditions: "request.query.has('is_internal')"

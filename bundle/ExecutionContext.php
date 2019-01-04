@@ -63,11 +63,10 @@ class ExecutionContext
 
                 $expression = $v['conditions'];
 
-                if ($this->expressionLanguage->evaluate($expression, ['context' => $requestContext, 'request' => $request])) {
+                if($this->expressionLanguage->evaluate($expression, ['context' => $requestContext, 'request' => $request])) {
                     return $k;
                 }
             }
-
 
             // todo refactor this and above
             if($this->isDebug && !empty($v['debug_conditions'])){
@@ -77,6 +76,7 @@ class ExecutionContext
                     return $k;
                 }
             }
+
         }
 
         return null;
